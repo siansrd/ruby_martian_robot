@@ -30,7 +30,7 @@ class Robot
     return @orientations.index(@orientation)
   end
 
-  def rotate_orientations(direction)
+  def get_new_orientation(direction)
     case direction
     when 'R'
       rotated = @orientations.rotate
@@ -44,7 +44,7 @@ class Robot
 
   def change_orientation(direction)  
     index = get_orientation_index
-    rotated = rotate_orientations(direction)
+    rotated = get_new_orientation(direction)
     @orientation = rotated[index]
   end
 
@@ -69,8 +69,13 @@ class Robot
     @y = @prev_y 
   end
 
+  def add_warning_scent(x, y)
+    @grid.dimensions[x][y] = "x"
+  end
+
   def move(instruction)
     store_previous_coords
+    change_coords(instruction)
     if !@grid.has_warning_scent?(@x, @y)
       change_coords(instruction)
       if !on_grid? 
@@ -79,15 +84,15 @@ class Robot
       end
       return true
     else 
-        change_coords(instruction)
-        if !on_grid?
-          reinstate_previous_coords 
-        end
-        return true
+      change_coords(instruction)
+      if !on_grid?
+        reinstate_previous_coords 
+      end
+      return true
     end
   end
 
-  def move_or_orientate(input)
+  def carry_out_instructions(input)
     instructions = input.split("")
     for instruction in instructions do
       if instruction == 'F'
@@ -96,10 +101,6 @@ class Robot
         change_orientation(instruction)
       end
     end
-  end
-
-  def add_warning_scent(x, y)
-    @grid.dimensions[x][y] = "x"
   end
 
 end

@@ -45,17 +45,17 @@ class TestRobot < MiniTest::Test
   end
 
   def test_take_multiple_instructions
-    @robot.move_or_orientate('RF')
+    @robot.carry_out_instructions('RF')
     assert_equal('1 0 S', @robot.get_position)
   end
 
   def test_take_multiple_instructions_full_circle
-    @robot.move_or_orientate('RFRFRFRF')
+    @robot.carry_out_instructions('RFRFRFRF')
     assert_equal('1 1 E', @robot.get_position)
   end
 
   def test_on_grid_false
-    @robot.move_or_orientate('RFF')
+    @robot.carry_out_instructions('RFF')
     assert_equal(false, @robot.on_grid?)
   end
 
@@ -64,17 +64,17 @@ class TestRobot < MiniTest::Test
   end
 
   def test_position_lost_if_moves_off_grid_negative
-    @robot.move_or_orientate('RFF')
+    @robot.carry_out_instructions('RFF')
     assert_equal('1 0 S LOST', @robot.get_position)
   end
 
   def test_position_lost_if_moves_off_grid_positive
-    @robot.move_or_orientate('FFFFF')
+    @robot.carry_out_instructions('FFFFF')
     assert_equal('5 1 E LOST', @robot.get_position)
   end
 
   def test_position_lost_if_moves_off_grid_by_multiple_positions
-    @robot.move_or_orientate('FFFFFFFF')
+    @robot.carry_out_instructions('FFFFFFFF')
     assert_equal('5 1 E LOST', @robot.get_position)
   end
 
@@ -84,34 +84,34 @@ class TestRobot < MiniTest::Test
   end
 
   def test_add_warning_scent_when_moved_off_grid_x
-    @robot.move_or_orientate('FFFFF')
+    @robot.carry_out_instructions('FFFFF')
     assert_equal('x', @grid.dimensions[4][1])
   end
 
   def test_add_warning_scent_when_moved_off_grid_x
-    @robot.move_or_orientate('FFFFF')
+    @robot.carry_out_instructions('FFFFF')
     assert_equal('x', @grid.dimensions[5][1])
   end
 
   def test_add_warning_scent_when_moved_off_grid_y
-    @robot.move_or_orientate('RFFF')
+    @robot.carry_out_instructions('RFFF')
     assert_equal('x', @grid.dimensions[1][0])
   end
 
   def test_add_warning_scent_if_moves_off_grid_by_multiple_positions
-    @robot.move_or_orientate('FFFFFFFF')
+    @robot.carry_out_instructions('FFFFFFFF')
     assert_equal('x', @grid.dimensions[5][1])
   end
 
   def test_not_move_off_grid_if_warning_scent
-    @robot.move_or_orientate('RFF')
-    @robot_2.move_or_orientate('RFF')
+    @robot.carry_out_instructions('RFF')
+    @robot_2.carry_out_instructions('RFF')
     assert_equal( '1 0 S', @robot_2.get_position)
   end
 
   def test_not_move_off_grid_if_warning_scent_2
-    @robot_3.move_or_orientate('FRRFLLFFRRFLL')
-    @robot_4.move_or_orientate('LLFFFLFLFL')
+    @robot_3.carry_out_instructions('FRRFLLFFRRFLL')
+    @robot_4.carry_out_instructions('LLFFFLFLFL')
     assert_equal('3 3 N LOST', @robot_3.get_position)
     assert_equal('2 3 S', @robot_4.get_position)
   end
