@@ -5,7 +5,7 @@ class Grid
   def initialize(x, y)
     @x = x
     @y = y
-    @dimensions = Array.new(x){Array.new(y)}
+    @dimensions = Array.new(x + 1){Array.new(y + 1)}
   end
 
   def has_warning_scent?(x, y)

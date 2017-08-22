@@ -11,11 +11,11 @@ class TestGrid < MiniTest::Test
   end
 
   def test_initialise_grid_x
-    assert_equal(5, @grid.dimensions.size)
+    assert_equal(6, @grid.dimensions.size)
   end
 
   def test_initialise_grid_y
-    assert_equal(3, @grid.dimensions[4].size)
+    assert_equal(4, @grid.dimensions[4].size)
   end
 
   def test_warning_scent_false
