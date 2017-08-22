@@ -5,8 +5,8 @@ class Robot
     @x = position[0].to_i
     @y = position[1].to_i
     @orientation = position[2]
-    @prev_x
-    @prev_y
+    @prev_x = nil
+    @prev_y = nil
     @movements = {
       'N' => ['y', 1],
       'E' => ['x', 1],
