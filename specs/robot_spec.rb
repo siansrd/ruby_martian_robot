@@ -23,57 +23,57 @@ class TestRobot < MiniTest::Test
     assert_equal(1, @robot.get_orientation_index)
   end
 
-  def test_change_orientation_left_E_to_N
+  def test_change_orientation__left_east_to_north
     @robot.change_orientation('L')
     assert_equal('1 1 N', @robot.get_position)
   end
 
-  def test_change_orientation_right_E_to_S
+  def test_change_orientation__right_east_to_south
     @robot.change_orientation('R')
     assert_equal('1 1 S', @robot.get_position)
   end
 
-  def test_move_forwards_east
+  def test_move_forwards__east
     @robot.change_coords('F')
     assert_equal('2 1 E', @robot.get_position)
   end
 
-  def test_turn_and_move_forwards_south
+  def test_turn_and_move__right_east_to_south
     @robot.change_orientation('R')
     @robot.change_coords('F')
     assert_equal('1 0 S', @robot.get_position)
   end
 
-  def test_take_multiple_instructions
+  def test_carry_out_instructions
     @robot.carry_out_instructions('RF')
     assert_equal('1 0 S', @robot.get_position)
   end
 
-  def test_take_multiple_instructions_full_circle
+  def test_carry_out_instructions__full_circle
     @robot.carry_out_instructions('RFRFRFRF')
     assert_equal('1 1 E', @robot.get_position)
   end
 
-  def test_on_grid_false
+  def test_check_on_grid__false
     @robot.carry_out_instructions('RFF')
     assert_equal(false, @robot.on_grid?)
   end
 
-  def test_on_grid_true
+  def test_check_on_grid__true
     assert_equal(true, @robot.on_grid?)
   end
 
-  def test_position_lost_if_moves_off_grid_negative
+  def test_position_lost_if_moves_off_grid__negative
     @robot.carry_out_instructions('RFF')
     assert_equal('1 0 S LOST', @robot.get_position)
   end
 
-  def test_position_lost_if_moves_off_grid_positive
+  def test_position_lost_if_moves_off_grid__positive
     @robot.carry_out_instructions('FFFFF')
     assert_equal('5 1 E LOST', @robot.get_position)
   end
 
-  def test_position_lost_if_moves_off_grid_by_multiple_positions
+  def test_position_lost_if_moves_off_grid__by_multiple_positions
     @robot.carry_out_instructions('FFFFFFFF')
     assert_equal('5 1 E LOST', @robot.get_position)
   end
@@ -83,22 +83,17 @@ class TestRobot < MiniTest::Test
     assert_equal("x", @grid.dimensions[4][1])
   end
 
-  def test_add_warning_scent_when_moved_off_grid_x
-    @robot.carry_out_instructions('FFFFF')
-    assert_equal('x', @grid.dimensions[4][1])
-  end
-
-  def test_add_warning_scent_when_moved_off_grid_x
+  def test_add_warning_scent_to_grid__when_moved_off_grid_x
     @robot.carry_out_instructions('FFFFF')
     assert_equal('x', @grid.dimensions[5][1])
   end
 
-  def test_add_warning_scent_when_moved_off_grid_y
+  def test_add_warning_scent_to_grid__when_moved_off_grid_y
     @robot.carry_out_instructions('RFFF')
     assert_equal('x', @grid.dimensions[1][0])
   end
 
-  def test_add_warning_scent_if_moves_off_grid_by_multiple_positions
+  def test_add_warning_scent_to_grid__when_moved_off_grid_by_multiple_positions
     @robot.carry_out_instructions('FFFFFFFF')
     assert_equal('x', @grid.dimensions[5][1])
   end
