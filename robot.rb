@@ -5,16 +5,16 @@ class Robot
     @x = position[0].to_i
     @y = position[1].to_i
     @orientation = position[2]
-    @prev_x = nil
-    @prev_y = nil
+    @grid = grid 
     @movements = {
-      'N' => ['y', 1],
-      'E' => ['x', 1],
-      'S' => ['y', -1],
-      'W' => ['x', -1]   
+      'N' => [0, 1],
+      'E' => [1, 0],
+      'S' => [0, -1],
+      'W' => [-1, 0]   
     }
     @orientations = ['N', 'E', 'S', 'W'] 
-    @grid = grid 
+    @prev_x = nil
+    @prev_y = nil
   end
 
   def get_position
@@ -51,11 +51,8 @@ class Robot
   def change_coords(direction)
     change = @movements[@orientation]
     if direction == 'F'
-      if change[0] == 'x'
-        @x += change[1]
-      else
-        @y += change[1]
-      end
+      @x += change[0]
+      @y += change[1]  
     end
   end
 
@@ -73,7 +70,7 @@ class Robot
     @grid.dimensions[x][y] = "x"
   end
 
-  def move_with_no_warning_scene(instruction)
+  def move_with_no_warning_scent(instruction)
     change_coords(instruction)
     if !on_grid? 
       add_warning_scent(@prev_x, @prev_y)
@@ -92,7 +89,7 @@ class Robot
   def move(instruction)
     store_previous_coords
     if !@grid.has_warning_scent?(@x, @y)
-      return move_with_no_warning_scene(instruction)  
+      return move_with_no_warning_scent(instruction)  
     else 
       move_with_warning_scent(instruction)  
       return true
@@ -100,7 +97,7 @@ class Robot
   end
 
   def carry_out_instructions(input)
-    instructions = input.split("")
+    instructions = input.split('')
     for instruction in instructions do
       if instruction == 'F'
         return if !move(instruction)
